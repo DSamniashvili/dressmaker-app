@@ -1,7 +1,7 @@
 import { configureStore, Action, ThunkAction } from '@reduxjs/toolkit';
-import rootReducer from '../features/counter/reducers';
+import rootReducer from '../../features/counter/reducers';
 import Thunk from 'redux-thunk';
-import Logger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -12,13 +12,19 @@ const persistConfig = {
 	blackList: [],
 };
 
+
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const middlewares = [Thunk];
  
 if (process.env.NODE_ENV === `development`) {
-  const { logger } = require(`redux-logger`);
-  middlewares.push(logger);
+  const { createLogger } = require(`redux-logger`);
+  const reduxLogger = createLogger({
+	collapsed: (getState: any, action: any, logEntry: any) => !logEntry.error
+  });
+
+  middlewares.push(reduxLogger);
 }
 
 export const store = configureStore({

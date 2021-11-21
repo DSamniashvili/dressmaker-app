@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { useAppSelector, useAppDispatch } from '../../app/hooks/hooks';
 import { decrement, increment } from './actions';
 import styles from './Counter.module.css';
 import { selectCount } from './selectors';
